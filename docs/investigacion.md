@@ -1,0 +1,3 @@
+El ZIP principal contiene una carpeta con la fecha.
+Dentro de esa carpeta hay 17 ZIP de comercios.
+Los nombres siguen el patrón sepa_X_comercio-sepa-YY_....
