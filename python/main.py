@@ -5,8 +5,13 @@ from src.zip_explorer import (
     get_csv_files,
 )
 
+from src.csv_explorer import read_csv_headers
+
+from src.csv_explorer import analyze_csv
+
+
 ZIP_FILE = Path(
-    r""
+    r"C:\Users\adrj\Escritorio\Argentina Programa\Flutter\App_DataCook\sepa_viernes.zip"
 )
 
 
@@ -34,6 +39,32 @@ def main():
 
     for csv in csv_files:
         print(f" - {csv}")
+
+    print("\n-----------------------------------")
+    print("Analizando productos.csv")
+    print("-----------------------------------")
+
+    analysis = analyze_csv(
+        ZIP_FILE,
+        first_zip,
+        "productos.csv",
+    )
+
+    print(f"\nFilas: {analysis['row_count']}")
+    print(f"Columnas: {len(analysis['headers'])}")
+
+    print("\nColumnas:\n")
+
+    for column in analysis["headers"]:
+        print(f"- {column}")
+
+    print("\nPrimer registro:\n")
+
+    for column, value in zip(
+        analysis["headers"],
+        analysis["first_row"],
+    ):
+        print(f"{column}: {value}")
 
 
 if __name__ == "__main__":
