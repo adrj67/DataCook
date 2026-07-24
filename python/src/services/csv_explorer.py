@@ -2,6 +2,7 @@ import csv
 import io
 import zipfile
 from pathlib import Path
+from src.models.csv_analysis import CsvAnalysis
 
 
 def read_csv_headers(
@@ -71,8 +72,8 @@ def analyze_csv(
                     for _ in reader:
                         row_count += 1
 
-                    return {
-                        "headers": headers,
-                        "first_row": first_row,
-                        "row_count": row_count,
-                    }
+                    return CsvAnalysis(
+                        headers=headers,
+                        first_row=first_row,
+                        row_count=row_count,
+                    )

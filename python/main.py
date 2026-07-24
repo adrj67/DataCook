@@ -1,17 +1,19 @@
 from pathlib import Path
 
-from src.zip_explorer import (
+from src.services.zip_explorer import (
     get_internal_zip_files,
-    get_csv_files,
+    get_internal_csv_files,
 )
 
-from src.csv_explorer import read_csv_headers
+# from src.services.csv_explorer import read_csv_headers
 
-from src.csv_explorer import analyze_csv
+from src.services.csv_explorer import analyze_csv
+
+from src.services.zip_explorer import get_internal_csv_files
 
 
 ZIP_FILE = Path(
-    r"C:\Users\adrj\Escritorio\Argentina Programa\Flutter\App_DataCook\sepa_viernes.zip"
+    r"C:\Users\adrj\Escritorio\Argentina Programa\Flutter\App_DataCook\sepa_miercoles.zip"
 )
 
 
@@ -29,16 +31,40 @@ def main():
 
     first_zip = zip_files[0]
 
+    #print("\n-----------------------------------")
+    #print(f"Primer ZIP: {first_zip}")
+    #print("-----------------------------------\n")
+
+    #csv_files = get_csv_files(ZIP_FILE, first_zip)
+
+    #print("Contenido:")
+
+    #for csv in csv_files:
+    #    print(f" - {csv}")
+
     print("\n-----------------------------------")
-    print(f"Primer ZIP: {first_zip}")
+    print("Verificando estructura de todos los ZIP")
     print("-----------------------------------\n")
 
-    csv_files = get_csv_files(ZIP_FILE, first_zip)
+    for zip_name in zip_files:
 
-    print("Contenido:")
+        print(zip_name)
 
-    for csv in csv_files:
-        print(f" - {csv}")
+        try:
+
+            csv_files = get_internal_csv_files(
+                ZIP_FILE,
+                zip_name,
+            )
+
+            for file in csv_files:
+                print(f"   - {file}")
+
+        except Exception as e:
+
+            print(f"⚠ No se pudo abrir: {zip_name} Motivo: Archivo ZIP vacío o corrupto. Se continuará con el siguiente archivo.   ERROR: {e}")
+
+        print()
 
     print("\n-----------------------------------")
     print("Analizando productos.csv")
@@ -50,19 +76,19 @@ def main():
         "productos.csv",
     )
 
-    print(f"\nFilas: {analysis['row_count']}")
-    print(f"Columnas: {len(analysis['headers'])}")
+    print(f"\nFilas: {analysis.row_count}")
+    print(f"Columnas: {len(analysis.headers)}")
 
     print("\nColumnas:\n")
 
-    for column in analysis["headers"]:
+    for column in analysis.headers:
         print(f"- {column}")
 
     print("\nPrimer registro:\n")
 
     for column, value in zip(
-        analysis["headers"],
-        analysis["first_row"],
+        analysis.headers,
+        analysis.first_row,
     ):
         print(f"{column}: {value}")
 

@@ -17,9 +17,12 @@ def get_internal_zip_files(zip_path: Path) -> list[str]:
         ]
 
 
-def get_csv_files(zip_path: Path, internal_zip_name: str) -> list[str]:
+def get_internal_csv_files(
+    zip_path: Path,
+    internal_zip_name: str,
+) -> list[str]:
     """
-    Devuelve los CSV contenidos en un ZIP interno.
+    Devuelve los CSV contenidos dentro de un ZIP interno.
     """
 
     with zipfile.ZipFile(zip_path, "r") as main_zip:
